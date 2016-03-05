@@ -1,7 +1,66 @@
 {% extends "layout.html" %}
 {% block content %}
-  <div class="jumbo">
-    <h2>Controller command page<h2>
-    <h3>logged in as {{ session['email'] }}<h3>
-  </div>
+    <div class="container-fluid">
+      <div>
+        <div >
+        	<h2>Controller command page</h2>
+       	</div>
+        <div>         
+            <h3>logged in as {{ session['email'] }}</h3>
+            {% if message %}
+                <p style="float:right; width:250px;">Last action: <span>{{ message }}</span></p>
+            {% endif %}
+ 
+        </div>
+            <div>
+              <div>
+                  <div style="float:left;">
+                    Switch all pins:
+                    <a href="/profile/on" class="btn btn-success" role="button">On</a>
+                    <a href="/profile/off" class="btn btn-danger" role="button">Off</a>
+                  </div>
+
+                  <div style="float:right; width:250px;">
+                       Test-LED
+                            <a href="/profile/7/off" class="btn btn-danger" role="button">Off</a>
+                            <a href="/profile/7/on" class="btn btn-success" role="button">On</a>
+                            <a href="/profile/7/toggle" class="btn btn-primary" role="button">Toggle</a>
+                  </div>
+
+                <table  class="table table-condensed table-striped">
+                {% for pin in pins %}
+                    {% if pins[pin].type != "test" %}
+                    <tr>
+                        <td>
+                            <h4>{{ pins[pin].name }}</h4>
+                        </td>
+                        <!-- Status-->
+                        <td>
+                            {% if pins[pin].state == true %}
+                                Current state: <span>On</span>
+                            {% else %}
+                                Current state: <span>Off</span>
+                            {% endif %}
+                        </td>
+                        <!-- Button for action-->
+                        <td>
+                           {% if pins[pin].state == true %}
+                                <a href="/profile/{{pin}}/on" class="btn btn-success" role="button" >On</a>
+                                <a href="/profile/{{pin}}/off" class="btn btn-danger" role="button">Off</a>
+                                <a href="/profile/{{pin}}/reset" class="btn btn-primary" role="button">Reset</a>
+                           {% else %}
+                                <a href="/profile/{{pin}}/on" class="btn btn-success" role="button">On</a>
+                                <a href="/profile/{{pin}}/off" class="btn btn-danger" role="button" ">Off</a>
+                                <a href="/profile/{{pin}}/reset" class="btn btn-primary" role="button" ">Reset</a>
+                           {% endif %}
+                        </td>
+                    </tr>
+                    {% endif %}
+                {% endfor %}
+                </table>
+              </div>
+            </div>
+          </div>
+        </div>
+ 
 {% endblock %}

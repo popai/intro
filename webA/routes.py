@@ -4,7 +4,7 @@ from flask import render_template, request, flash, session, url_for, redirect
 from webA.forms import ContactForm, SignupForm, SigninForm
 from flask_mail import Message, Mail
 from webA.models import User, db, build_sample_db
-
+import pins
 
 
 mail = Mail(app)
@@ -33,7 +33,7 @@ def contact():
     elif request.method == 'GET':
         return render_template('contact.html', form=form)
 
-@app.route('/profile')
+@app.route('/profile', methods=['GET', 'POST'])
 def profile():
     if 'email' not in session:
         return redirect(url_for('signin'))
