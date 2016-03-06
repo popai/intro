@@ -4,10 +4,12 @@ from flask import render_template, request, flash, session, url_for, redirect
 from webA.forms import ContactForm, SignupForm, SigninForm
 from flask_mail import Message, Mail
 from webA.models import User, db, build_sample_db
+from flask_bootstrap import Bootstrap
 import pins
 
 
 mail = Mail(app)
+Bootstrap(app)
 """
 @app.route('/')
 def home():
@@ -32,19 +34,6 @@ def contact():
 
     elif request.method == 'GET':
         return render_template('contact.html', form=form)
-
-@app.route('/profile', methods=['GET', 'POST'])
-def profile():
-    if 'email' not in session:
-        return redirect(url_for('signin'))
- 
-    #user = User().query.filter_by(email = session['email']).first()
-    user = db.session().query(User).filter_by(email = session['email']).first()
-        
-    if user is None:
-        return redirect(url_for('signin'))
-    else:
-        return render_template('profile.html')
 
 @app.route('/signup', methods=['GET', 'POST'])
 def signup():
@@ -97,4 +86,4 @@ if __name__ == '__main__':
     if not os.path.exists(database_path):
         build_sample_db()
 
-    app.run(debug=True)
+    app.run(host='192.168.0.12', port=80, debug=True)

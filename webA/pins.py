@@ -24,8 +24,8 @@ pins = PINS
     #GPIO.setup(pin, GPIO.OUT)
     #GPIO.output(pin, GPIO.LOW)
 
-@app.route('/profile')
-def pisState():
+@app.route('/profile', methods=['GET', 'POST'])
+def profile():
     if 'email' not in session:
         return redirect(url_for('signin'))
  
@@ -34,14 +34,15 @@ def pisState():
         
     if user is None:
         return redirect(url_for('signin'))
-    # For each pin, read the pin state and store it in the pins dictionary
-    for pin in pins:
-        pins[pin]['state'] = 'ceva'#GPIO.input(pin)
-    # Put the pin dictionary into the template data dictionary
-    templateData = {
-        'pins' : pins
-    }
-    return render_template('profile.html', **templateData)
+    else:
+        for pin in pins:
+            pins[pin]['state'] = 0#GPIO.input(pin)
+            # Put the pin dictionary into the template data dictionary
+            templateData = {
+                        'pins' : pins
+                    }
+        return render_template('profile.html', **templateData)
+
 
 # The function below is executed when someone requests a URL without a
 # pin number -> master control for all pins
@@ -68,18 +69,17 @@ def master(master):
         message = 'Turned all interfaces off.'
     # For each pin, read the pin state and store it in the pins dictionary
     for pin in pins:
-        pins[pin]['state'] = 'test'#GPIO.input(pin)
+        pins[pin]['state'] = 1#GPIO.input(pin)
         # Along with the pin dictionary, put the message into the template data dictionary
     templateData = {
                     'message' : message,
                     'pins' : pins
                     }
-    app.root_path = 'profile'
+    #app.root_path = 'profile'
     return render_template('profile.html', **templateData)
-    #return redirect(url_for('profile'))
 
-    # The function below is executed when someone requests a URL with the
-    # pin number and action in it
+# The function below is executed when someone requests a URL with the
+# pin number and action in it
 @app.route('/profile/<changePin>/<action>')
 def action(changePin, action):
     if 'email' not in session:
@@ -121,7 +121,7 @@ def action(changePin, action):
                     'message' : message,
                     'pins' : pins
                     }
-    app.root_path = 'profile'
+    #app.root_path = 'profile'
     return render_template('profile.html', **templateData)
 
 

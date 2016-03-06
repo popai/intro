@@ -1,20 +1,23 @@
 {% extends "layout.html" %}
+ 
 {% block content %}
-    <div class="container-fluid">
+    <div id="wrap">
       <div>
         <div >
-        	<h2>Controller command page</h2>
-       	</div>
-        <div>         
-            <h3>logged in as {{ session['email'] }}</h3>
             {% if message %}
-                <p style="float:right; width:250px;">Last action: <span>{{ message }}</span></p>
+                <p style="float:right; width:250px;">Last action:<span class="label label-info">{{ message }}</span>
+                {% else %}
+                <p style="float:right; width:250px;">Last action:<span class="label label-info">No acction</span>
             {% endif %}
- 
+            <p style="float:left; width:250px;">logged in as {{ session['email'] }}</p>
+        </div>
+        <div>
+            <h3><b>Controller command page</b></h3>
+        </div>
         </div>
             <div>
               <div>
-                  <div style="float:left;">
+                   <div style="float:left;">
                     Switch all pins:
                     <a href="/profile/on" class="btn btn-success" role="button">On</a>
                     <a href="/profile/off" class="btn btn-danger" role="button">Off</a>
@@ -26,8 +29,8 @@
                             <a href="/profile/7/on" class="btn btn-success" role="button">On</a>
                             <a href="/profile/7/toggle" class="btn btn-primary" role="button">Toggle</a>
                   </div>
-
-                <table  class="table table-condensed table-striped">
+ 			
+                <table class="table table-striped">
                 {% for pin in pins %}
                     {% if pins[pin].type != "test" %}
                     <tr>
@@ -37,30 +40,32 @@
                         <!-- Status-->
                         <td>
                             {% if pins[pin].state == true %}
-                                Current state: <span>On</span>
+                                Current state: <span class="label label-success">On</span>
                             {% else %}
-                                Current state: <span>Off</span>
+                                Current state: <span class="label label-danger">Off</span>
                             {% endif %}
                         </td>
                         <!-- Button for action-->
                         <td>
                            {% if pins[pin].state == true %}
-                                <a href="/profile/{{pin}}/on" class="btn btn-success" role="button" >On</a>
+                                <a href="/profile/{{pin}}/on" class="btn btn-success disabled" role="button" >On</a>
                                 <a href="/profile/{{pin}}/off" class="btn btn-danger" role="button">Off</a>
                                 <a href="/profile/{{pin}}/reset" class="btn btn-primary" role="button">Reset</a>
                            {% else %}
-                                <a href="/profile/{{pin}}/on" class="btn btn-success" role="button">On</a>
-                                <a href="/profile/{{pin}}/off" class="btn btn-danger" role="button" ">Off</a>
-                                <a href="/profile/{{pin}}/reset" class="btn btn-primary" role="button" ">Reset</a>
+                                <a href="/profile/{{pin}}/on" class="btn btn-success disabled" role="button">On</a>
+                                <a href="/profile/{{pin}}/off" class="btn btn-danger" role="button">Off</a>
+                                <a href="/profile/{{pin}}/reset" class="btn btn-primary  disable" role="button">Reset</a>
                            {% endif %}
                         </td>
                     </tr>
                     {% endif %}
                 {% endfor %}
                 </table>
+                </Form>
               </div>
             </div>
           </div>
-        </div>
- 
+        <div>
+        <small><p>&copy; <a href="http://affolter-engineering.ch">Affolter Engineering</a> 2014</p></small>
+    </div>
 {% endblock %}
