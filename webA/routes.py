@@ -5,7 +5,9 @@ from webA.forms import ContactForm, SignupForm, SigninForm
 from flask_mail import Message, Mail
 from webA.models import User, db, build_sample_db
 from flask_bootstrap import Bootstrap
-import pins
+
+import threading
+import webA.pinsAction
 
 
 mail = Mail(app)
@@ -78,6 +80,28 @@ def signout():
     session.pop('email', None)
     return redirect(url_for('signin'))
 
+"""
+def inPins():
+    while 1:
+        changet = False
+        for pin in pinsAction.pins:
+        #if GPIO.input(pin)== 0 and pins[pin].type == "input":
+            deviceName = pinsAction.pins[pin]['name']
+            message =    deviceName + "OFF"
+            changet = True
+            
+        if changet:
+            changet = False
+            #msg = Message(deviceName, sender='contact@example.com', recipients=['popai@b.astral.ro'])
+            #msg.body = From: %s <%s> %s %(deviceName, session['email'], message) 
+            #mail.send(msg)
+           
+#t1 = threading.Thread(target=inPins)
+#t1.start()
+"""
+t2 = threading.Thread(target=webA.pinsAction.offPin)
+t2.start()                    
+
 if __name__ == '__main__':
 
     # Build a sample db on the fly, if one does not exist yet.
@@ -86,4 +110,6 @@ if __name__ == '__main__':
     if not os.path.exists(database_path):
         build_sample_db()
 
-    app.run(host='192.168.0.12', port=80, debug=True)
+    #app.run(host='192.168.0.12', port=80, debug=True)
+
+    app.run()
