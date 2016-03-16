@@ -6,7 +6,7 @@ from flask_mail import Message, Mail
 from webA.models import User, db, build_sample_db
 from flask_bootstrap import Bootstrap
 
-import threading
+import threading, time
 import webA.pinsAction
 
 
@@ -80,25 +80,34 @@ def signout():
     session.pop('email', None)
     return redirect(url_for('signin'))
 
-"""
+
 def inPins():
     while 1:
-        changet = False
-        for pin in pinsAction.pins:
-        #if GPIO.input(pin)== 0 and pins[pin].type == "input":
-            deviceName = pinsAction.pins[pin]['name']
-            message =    deviceName + "OFF"
-            changet = True
-            
-        if changet:
-            changet = False
-            #msg = Message(deviceName, sender='contact@example.com', recipients=['popai@b.astral.ro'])
-            #msg.body = From: %s <%s> %s %(deviceName, session['email'], message) 
-            #mail.send(msg)
+        for pin in webA.pinsAction.pins:
+            if webA.pinsAction.pins[pin]['type'] == 'output':
+                if webA.pinsAction.pins[pin]['state'] == 0:
+                    if webA.pinsAction.pins[pin]['msg']:
+                        webA.pinsAction.pins[pin]['msg'] = False
+                        deviceName = webA.pinsAction.pins[pin]['name']
+                        message =    deviceName + " OFF"
+                        print(message)
+                        mesg = Message(deviceName, sender='popai307@gmail.com', recipients=['popai@b.astral.ro'])
+                        mesg.body = message #"""From: %s <%s> %s""" %(deviceName, 'popai@b.astral.ro', message) 
+                        mail.send(mesg)
+                else:
+                    if webA.pinsAction.pins[pin]['msg'] == False:
+                        deviceName = webA.pinsAction.pins[pin]['name']
+                        message = deviceName + " ON"
+                        print(message)
+                        #msg = Message(deviceName, sender='contact@example.com', recipients=['popai@b.astral.ro'])
+                        #msg.body = From: %s <%s> %s %(deviceName, session['email'], message) 
+                        #mail.send(msg)
+                    webA.pinsAction.pins[pin]['msg'] = True
+        time.sleep(2)
            
-#t1 = threading.Thread(target=inPins)
-#t1.start()
-"""
+t1 = threading.Thread(target=inPins)
+t1.start()
+
 t2 = threading.Thread(target=webA.pinsAction.offPin)
 t2.start()                    
 

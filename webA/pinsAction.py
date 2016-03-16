@@ -6,18 +6,18 @@ import time
 
 # Grab all pins from the configuration file
 PINS = {
-        17 : {'name' : 'Interface 0', 'state' : '', 'type' : 'output', 'time' : int(time.time())},
-        27 : {'name' : 'Interface 1', 'state' : '', 'type' : 'output', 'time' : int(time.time())},
-        23 : {'name' : 'Interface 2', 'state' : '', 'type' : 'output', 'time' : int(time.time())},
-        24 : {'name' : 'Interface 3', 'state' : '', 'type' : 'output', 'time' : int(time.time())},
-        14 : {'name' : 'Interface 4', 'state' : '', 'type' : 'input', 'time' : int(time.time())},
-        15 : {'name' : 'Interface 5', 'state' : '', 'type' : 'input', 'time' : int(time.time())},
-        7 : {'name' : 'Test LED', 'state' : '', 'type' : 'test', 'time' : int(time.time())}
+        17 : {'name' : 'Interface 0', 'state' : '', 'type' : 'output', 'time' : int(time.time()), 'msg' : True},
+        27 : {'name' : 'Interface 1', 'state' : '', 'type' : 'output', 'time' : int(time.time()), 'msg' : True},
+        23 : {'name' : 'Interface 2', 'state' : '', 'type' : 'output', 'time' : int(time.time()), 'msg' : True},
+        24 : {'name' : 'Interface 3', 'state' : '', 'type' : 'output', 'time' : int(time.time()), 'msg' : True},
+        14 : {'name' : 'Interface 4', 'state' : '', 'type' : 'input', 'time' : int(time.time()), 'msg' : True},
+        15 : {'name' : 'Interface 5', 'state' : '', 'type' : 'input', 'time' : int(time.time()), 'msg' : True},
+        7 : {'name' : 'Test LED', 'state' : '', 'type' : 'test', 'time' : int(time.time()), 'msg' : True}
         }
     
     
 pins = PINS  
-startTime = int(time.time())
+
 #GPIO.setmode(GPIO.BCM)
 #GPIO.setwarnings(False)
 
