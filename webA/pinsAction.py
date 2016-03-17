@@ -149,7 +149,7 @@ def offPin():
     while 1:
         stopTime = int(time.time())
         for pin in pins:
-            print(pins[pin]['time'])
+            #print(pins[pin]['time'])
             if pins[pin]['type'] != "input" and pins[pin]['state']:
                 startTime = pins[pin]['time']
                 if (stopTime - startTime) > 60:
