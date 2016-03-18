@@ -91,19 +91,25 @@ def inPins():
                         deviceName = webA.pinsAction.pins[pin]['name']
                         message =    deviceName + " OFF"
                         print(message)
-                        mesg = Message(deviceName, sender='popai307@gmail.com', recipients=['popai@b.astral.ro'])
-                        mesg.body = message #"""From: %s <%s> %s""" %(deviceName, 'popai@b.astral.ro', message) 
-                        mail.send(mesg)
+                        try:
+                            mesg = Message(deviceName, sender='popai307@gmail.com', recipients=['popai@b.astral.ro'])
+                            mesg.body = message #"""From: %s <%s> %s""" %(deviceName, 'popai@b.astral.ro', message) 
+                            mail.send(mesg)
+                        except :
+                            print("Error: can\'t send email OFF")
                 else:
                     if webA.pinsAction.pins[pin]['msg'] == False:
                         deviceName = webA.pinsAction.pins[pin]['name']
                         message = deviceName + " ON"
                         print(message)
-                        #msg = Message(deviceName, sender='contact@example.com', recipients=['popai@b.astral.ro'])
-                        #msg.body = From: %s <%s> %s %(deviceName, session['email'], message) 
-                        #mail.send(msg)
+                        try:
+                            mesg = Message(deviceName, sender='popai307@gmail.com', recipients=['popai@b.astral.ro'])
+                            mesg.body = message #"""From: %s <%s> %s""" %(deviceName, 'popai@b.astral.ro', message) 
+                            mail.send(mesg)
+                        except :
+                            print("Error: can\'t send email ON")
                     webA.pinsAction.pins[pin]['msg'] = True
-        time.sleep(2)
+        time.sleep(0.5)
            
 t1 = threading.Thread(target=inPins)
 t1.start()
