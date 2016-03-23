@@ -4,14 +4,14 @@ from flask import render_template, request, flash, session, url_for, redirect
 from webA.forms import ContactForm, SignupForm, SigninForm
 from flask_mail import Message, Mail
 from webA.models import User, db, build_sample_db
-from flask_bootstrap import Bootstrap
+#from flask_bootstrap import Bootstrap
 
 import threading, time
 import webA.pinsAction
 
 
 mail = Mail(app)
-Bootstrap(app)
+#Bootstrap(app)
 """
 @app.route('/')
 def home():
