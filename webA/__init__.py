@@ -13,7 +13,7 @@ app.config["MAIL_USE_SSL"] = True
 app.config["MAIL_USERNAME"] = 'popai307@gmail.com'
 app.config["MAIL_PASSWORD"] = 'maistrul'
 
-#import webA.routes 
+#import webA.webControl 
 #from routes import mail
 #mail.init_app(app)
 
