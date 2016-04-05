@@ -1,6 +1,6 @@
 from flask_wtf import Form
 from wtforms import TextField, TextAreaField, SubmitField, validators, PasswordField
-from webA.models import User, db
+from webPI.models import User, db
 
 class ContactForm(Form):
     name = TextField("Name",  [validators.Required("Please enter your name.")])

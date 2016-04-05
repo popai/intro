@@ -1,22 +1,18 @@
 import os
-from webA import app
+from webPI import app
 from flask import render_template, request, flash, session, url_for, redirect
-from webA.forms import ContactForm, SignupForm, SigninForm
+from webPI.forms import ContactForm, SignupForm, SigninForm
 from flask_mail import Message, Mail
-from webA.models import User, db, build_sample_db
+from webPI.models import User, db, build_sample_db
 #from flask_bootstrap import Bootstrap
 
 import threading, time
-import webA.pinsAction
+import webPI.pinsAction
 
 
 mail = Mail(app)
 #Bootstrap(app)
-"""
-@app.route('/')
-def home():
-    return render_template('home.html')
-"""
+
 @app.route('/about')
 def about():
     return render_template('about.html')
@@ -111,30 +107,30 @@ def inPins():
     #import smtplib
         
     while 1:
-        for pin in webA.pinsAction.pins:
-            if webA.pinsAction.pins[pin]['type'] == 'output':
-                if webA.pinsAction.pins[pin]['state'] == 0:
-                    if webA.pinsAction.pins[pin]['msg']:
-                        webA.pinsAction.pins[pin]['msg'] = False
-                        deviceName = webA.pinsAction.pins[pin]['name']
+        for pin in webPI.pinsAction.pins:
+            if webPI.pinsAction.pins[pin]['type'] == 'output':
+                if webPI.pinsAction.pins[pin]['state'] == 0:
+                    if webPI.pinsAction.pins[pin]['msg']:
+                        webPI.pinsAction.pins[pin]['msg'] = False
+                        deviceName = webPI.pinsAction.pins[pin]['name']
                         message = deviceName + " OFF"
                         print(message)
                         send_email('popai307@gmail.com', 'maistrul', 'popai@b.astral.ro', 'intrari', message)
 
                 else:
-                    if webA.pinsAction.pins[pin]['msg'] == False:
-                        deviceName = webA.pinsAction.pins[pin]['name']
+                    if webPI.pinsAction.pins[pin]['msg'] == False:
+                        deviceName = webPI.pinsAction.pins[pin]['name']
                         message = deviceName + " ON"
                         print(message)
                         send_email('popai307@gmail.com', 'maistrul', 'popai@b.astral.ro', 'intrari', message)
-                    webA.pinsAction.pins[pin]['msg'] = True
+                    webPI.pinsAction.pins[pin]['msg'] = True
 
         time.sleep(0.2)
            
 t1 = threading.Thread(target=inPins)
 t1.start()
 
-t2 = threading.Thread(target=webA.pinsAction.offPin)
+t2 = threading.Thread(target=webPI.pinsAction.offPin)
 t2.start()                    
 
 if __name__ == '__main__':
@@ -147,4 +143,4 @@ if __name__ == '__main__':
 
     #app.run(host='192.168.0.12', port=80, debug=True)
 
-    app.run()
+    app.run(debug=False)

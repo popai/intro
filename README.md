@@ -5,3 +5,4 @@ pachete py necesare:
  -flask
  -flask-sqlalchemy
  -flask-mail
+ -RPi.GPIO

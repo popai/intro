@@ -1,7 +1,7 @@
-#import RPi.GPIO as GPIO
-from webA import app
+import RPi.GPIO as GPIO
+from webPI import app
 from flask import render_template, session, url_for, redirect
-from webA.models import User, db 
+from webPI.models import User, db 
 import time
 
 # Grab all pins from the configuration file
@@ -18,19 +18,18 @@ PINS = {
     
 pins = PINS  
 
-#GPIO.setmode(GPIO.BCM)
-#GPIO.setwarnings(False)
+GPIO.setmode(GPIO.BCM)
+GPIO.setwarnings(False)
 
     
-# Set each pin as an output and make it low
-"""
+# Set each pin as table defined an output and make it low
 for pin in pins: 
     if pins[pin].type != "input":
         GPIO.setup(pin, GPIO.OUT)
         GPIO.output(pin, GPIO.LOW)
     else: 
         GPIO.setup(pin, GPIO.IN)
-"""
+
 @app.route('/profile', methods=['GET', 'POST'])
 def profile():
     if 'email' not in session:
@@ -43,7 +42,7 @@ def profile():
         return redirect(url_for('signin'))
     else:
         for pin in pins:
-            pins[pin]['state'] = 0#GPIO.input(pin)
+            pins[pin]['state'] = GPIO.input(pin)
     
             # Put the pin dictionary into the template data dictionary
             templateData = {
@@ -69,8 +68,8 @@ def master(master):
         # Set all pins to high
         for pin in pins:
             if pins[pin]['type'] != "input":
-                #GPIO.output(pin, GPIO.HIGH)
-                pins[pin]['state'] = 1
+                GPIO.output(pin, GPIO.HIGH)
+                pins[pin]['state'] = GPIO.input(pin)
                 time.sleep(0.02)
                 pins[pin]['time'] = int(time.time())
            
@@ -79,13 +78,15 @@ def master(master):
         # Set all pins to low
         for pin in pins:
             if pins[pin]['type'] != "input":
-                pins[pin]['state'] = 0
-                #GPIO.output(pin, GPIO.LOW)
+                GPIO.output(pin, GPIO.LOW)
+                pins[pin]['state'] = GPIO.input(pin)
         message = 'Turned all interfaces off.'
+        
     # For each pin, read the pin state and store it in the pins dictionary
-    #for pin in pins:
-        #pins[pin]['state'] = 1#GPIO.input(pin)
-        # Along with the pin dictionary, put the message into the template data dictionary
+    for pin in pins:
+        pins[pin]['state'] = GPIO.input(pin)
+        
+    # Along with the pin dictionary, put the message into the template data dictionary
     templateData = {
                     'message' : message,
                     'pins' : pins
@@ -113,31 +114,37 @@ def action(changePin, action):
     # If the action part of the URL is "on," execute the code indented below
     if action == 'on':
         # Set the pin high
-        #GPIO.output(changePin, GPIO.HIGH)
+        GPIO.output(changePin, GPIO.HIGH)
         pins[changePin]['time'] = int(time.time())
-        pins[changePin]['state'] = 1
+        pins[changePin]['state'] = GPIO.input(pin)        
         # Save the status message to be passed into the template
-        
         message = 'Turned ' + deviceName + ' on.'
+        
     if action == 'off':
-        #GPIO.output(changePin, GPIO.LOW)
-        pins[changePin]['state'] = 0
+        GPIO.output(changePin, GPIO.LOW)
+        pins[changePin]['state'] = GPIO.input(pin)
+        # Save the status message to be passed into the template
         message = 'Turned ' + deviceName + ' off.'
+        
     if action == 'toggle':
         # Read the pin and set it to whatever it isn't (that is, toggle it)
-        #GPIO.output(changePin, not GPIO.input(changePin))
-        
+        GPIO.output(changePin, not GPIO.input(changePin))
+        # Save the status message to be passed into the template
         message = 'Toggled ' + deviceName + '.'
+        
     if action == 'reset':
         # Set the pin to low and after 5 s back to high
-        #GPIO.output(changePin, GPIO.LOW)
+        GPIO.output(changePin, GPIO.LOW)
         time.sleep(5)
-        #GPIO.output(changePin, GPIO.HIGH)
+        GPIO.output(changePin, GPIO.HIGH)
         pins[changePin]['time'] = int(time.time())
+        # Save the status message to be passed into the template
         message = 'Reset ' + deviceName + '.'
+        
     # For each pin, read the pin state and store it in the pins dictionary
-    #for pin in pins:
-        #pins[pin]['state'] = GPIO.input(pin)
+    for pin in pins:
+        pins[pin]['state'] = GPIO.input(pin)
+        
     templateData = {
                     'message' : message,
                     'pins' : pins
@@ -154,8 +161,9 @@ def offPin():
                 startTime = pins[pin]['time']
                 if (stopTime - startTime) > 60:
                     print("pin OFF")
-                    pins[pin]['state'] = 0
-                    #GPIO.output(pin, GPIO.LOW)
+                    GPIO.output(pin, GPIO.LOW)
+                    pins[pin]['state'] = GPIO.input(pin)
+                    
                     
         time.sleep(10)
         

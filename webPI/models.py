@@ -1,6 +1,6 @@
 from werkzeug import generate_password_hash, check_password_hash
 from flask_sqlalchemy import SQLAlchemy
-from webA import app
+from webPI import app
 
 db = SQLAlchemy(app)
 
