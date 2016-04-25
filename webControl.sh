@@ -11,8 +11,8 @@
 ### END INIT INFO
 
 # Change the next 3 lines to suit where you install your script and what you want to call it
-DIR=/usr/local/bin/webControl
-DAEMON=/usr/bin/env python $DIR/webControl.py
+DIR=/home/pi/Dan/intro/webPI
+DAEMON=$DIR/webControl.py
 DAEMON_NAME=webControl
 
 # Add any command line options for your daemon here

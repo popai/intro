@@ -28,7 +28,7 @@ for pin in pins:
     if pins[pin]['type'] != "input":
         GPIO.setup(pin, GPIO.OUT)
         GPIO.output(pin, GPIO.LOW)
-    pins[pin]['state'] = 0
+        pins[pin]['state'] = 0
     else: 
         GPIO.setup(pin, GPIO.IN)
 
@@ -146,13 +146,13 @@ def action(changePin, action):
         time.sleep(5)
         GPIO.output(changePin, GPIO.HIGH)
         pins[changePin]['time'] = int(time.time())
-	    pins[changePin]['state'] = GPIO.input(changePin)
+        pins[changePin]['state'] = GPIO.input(changePin)
         # Save the status message to be passed into the template
         message = 'Reset ' + deviceName + '.'
         
     # For each pin, read the pin state and store it in the pins dictionary
     for pin in pins:
-	   #if pins[pin]['type'] == "input":
+        #if pins[pin]['type'] == "input":
         pins[pin]['state'] = GPIO.input(pin)
         
     templateData = {
