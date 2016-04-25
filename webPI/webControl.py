@@ -1,3 +1,4 @@
+#!/usr/bin/env python
 import os
 from webPI import app
 from flask import render_template, request, flash, session, url_for, redirect
@@ -108,21 +109,21 @@ def inPins():
         
     while 1:
         for pin in webPI.pinsAction.pins:
-            if webPI.pinsAction.pins[pin]['type'] == 'output':
-                if webPI.pinsAction.pins[pin]['state'] == 0:
+            #if webPI.pinsAction.pins[pin]['type'] == 'output':
+                if webPI.pinsAction.pins[pin]['state'] == 1 and pinsAction.pins[pin]['type'] == 'input':
                     if webPI.pinsAction.pins[pin]['msg']:
                         webPI.pinsAction.pins[pin]['msg'] = False
                         deviceName = webPI.pinsAction.pins[pin]['name']
-                        message = deviceName + " OFF"
+                        message = deviceName + " ON"
                         print(message)
-                        send_email('popai307@gmail.com', 'maistrul', 'popai@b.astral.ro', 'intrari', message)
+                        send_email('rpi.webc@gmail.com', '2016Marti03', 'cretu_dan2003@yahoo.com', 'pi alert', message)
 
                 else:
                     if webPI.pinsAction.pins[pin]['msg'] == False:
                         deviceName = webPI.pinsAction.pins[pin]['name']
-                        message = deviceName + " ON"
+                        message = deviceName + " OFF"
                         print(message)
-                        send_email('popai307@gmail.com', 'maistrul', 'popai@b.astral.ro', 'intrari', message)
+                        send_email('rpi.webc@gmail.com', '2016Marti03', 'cretu_dan2003@yahoo.com', 'pi alert', message)
                     webPI.pinsAction.pins[pin]['msg'] = True
 
         time.sleep(0.2)
@@ -141,6 +142,6 @@ if __name__ == '__main__':
     if not os.path.exists(database_path):
         build_sample_db()
 
-    #app.run(host='192.168.0.12', port=80, debug=True)
+    app.run(host='0.0.0.0', port=5000, debug=False)
 
-    app.run(debug=False)
+    #app.run(debug=False)
