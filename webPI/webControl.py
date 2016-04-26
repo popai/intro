@@ -2,13 +2,13 @@
 import os
 from webPI import app
 from flask import render_template, request, flash, session, url_for, redirect
-from webPI.forms import ContactForm, SignupForm, SigninForm
+from forms import ContactForm, SignupForm, SigninForm
 from flask_mail import Message, Mail
-from webPI.models import User, db, build_sample_db
+from models import User, db, build_sample_db
 #from flask_bootstrap import Bootstrap
 
 import threading, time
-import webPI.pinsAction
+import pinsAction
 
 
 mail = Mail(app)
@@ -108,30 +108,30 @@ def inPins():
     #import smtplib
         
     while 1:
-        for pin in webPI.pinsAction.pins:
-            #if webPI.pinsAction.pins[pin]['type'] == 'output':
-                if webPI.pinsAction.pins[pin]['state'] == 1 and webPI.pinsAction.pins[pin]['type'] == 'input':
-                    if webPI.pinsAction.pins[pin]['msg']:
-                        webPI.pinsAction.pins[pin]['msg'] = False
-                        deviceName = webPI.pinsAction.pins[pin]['name']
-                        message = deviceName + " ON"
-                        print(message)
-                        send_email('rpi.webc@gmail.com', '2016Marti03', 'cretu_dan2003@yahoo.com', 'pi alert', message)
+        for pin in pinsAction.pins:
+            #if pinsAction.pins[pin]['type'] == 'output':
+            if pinsAction.pins[pin]['state'] == 1 and pinsAction.pins[pin]['type'] == 'input':
+                if pinsAction.pins[pin]['msg']:
+                    pinsAction.pins[pin]['msg'] = False
+                    deviceName = pinsAction.pins[pin]['name']
+                    message = deviceName + " ON"
+                    print(message)
+                    send_email('rpi.webc@gmail.com', '2016Marti03', 'cretu_dan2003@yahoo.com', 'pi alert', message)
 
-                else:
-                    if webPI.pinsAction.pins[pin]['msg'] == False:
-                        deviceName = webPI.pinsAction.pins[pin]['name']
-                        message = deviceName + " OFF"
-                        print(message)
-                        send_email('rpi.webc@gmail.com', '2016Marti03', 'cretu_dan2003@yahoo.com', 'pi alert', message)
-                    webPI.pinsAction.pins[pin]['msg'] = True
+            else:
+                if pinsAction.pins[pin]['msg'] == False:
+                    deviceName = pinsAction.pins[pin]['name']
+                    message = deviceName + " OFF"
+                    print(message)
+                    send_email('rpi.webc@gmail.com', '2016Marti03', 'cretu_dan2003@yahoo.com', 'pi alert', message)
+                pinsAction.pins[pin]['msg'] = True
 
         time.sleep(0.2)
            
 t1 = threading.Thread(target=inPins)
 t1.start()
 
-t2 = threading.Thread(target=webPI.pinsAction.offPin)
+t2 = threading.Thread(target=pinsAction.offPin)
 t2.start()                    
 
 if __name__ == '__main__':
