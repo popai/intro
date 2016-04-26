@@ -110,7 +110,7 @@ def inPins():
     while 1:
         for pin in webPI.pinsAction.pins:
             #if webPI.pinsAction.pins[pin]['type'] == 'output':
-                if webPI.pinsAction.pins[pin]['state'] == 1 and pinsAction.pins[pin]['type'] == 'input':
+                if webPI.pinsAction.pins[pin]['state'] == 1 and webPI.pinsAction.pins[pin]['type'] == 'input':
                     if webPI.pinsAction.pins[pin]['msg']:
                         webPI.pinsAction.pins[pin]['msg'] = False
                         deviceName = webPI.pinsAction.pins[pin]['name']
