@@ -31,6 +31,9 @@ for pin in pins:
     else: 
         GPIO.setup(pin, GPIO.IN)
 """
+for pin in pins:
+    pins[pin]['state'] = 0#GPIO.input(pin)
+
 @app.route('/profile', methods=['GET', 'POST'])
 def profile():
     if 'email' not in session:
@@ -41,14 +44,11 @@ def profile():
         
     if user is None:
         return redirect(url_for('signin'))
-    else:
-        for pin in pins:
-            pins[pin]['state'] = 0#GPIO.input(pin)
-    
-            # Put the pin dictionary into the template data dictionary
-            templateData = {
-                        'pins' : pins
-                    }
+    else: 
+        # Put the pin dictionary into the template data dictionary
+        templateData = {
+                'pins' : pins
+                }
         return render_template('profile.html', **templateData)
 
 

@@ -10,3 +10,5 @@ pachete py necesare:
  
  -flask-mail
  
+ -flask-wtf
+ 
