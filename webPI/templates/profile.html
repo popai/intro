@@ -4,11 +4,6 @@
     <div id="wrap">
       <div>
         <div >
-            {% if message %}
-                <p style="float:right; width:250px;">Last action:<span class="label label-info">{{ message }}</span>
-                {% else %}
-                <p style="float:right; width:250px;">Last action:<span class="label label-info">No acction</span>
-            {% endif %}
             <p style="float:left; width:250px;">logged in as {{ session['email'] }}</p>
         </div>
         <div>
@@ -19,15 +14,15 @@
               <div>
                    <div style="float:left;">
                     Switch all pins:
-                    <a href="/profile/on" class="btn btn-success" role="button">On</a>
                     <a href="/profile/off" class="btn btn-danger" role="button">Off</a>
                   </div>
-
-                  <div style="float:right; width:250px;">
-                       Test-LED
-                            <a href="/profile/7/off" class="btn btn-danger" role="button">Off</a>
-                            <a href="/profile/7/on" class="btn btn-success" role="button">On</a>
-                            <a href="/profile/7/toggle" class="btn btn-primary" role="button">Toggle</a>
+                    <h3>
+                    {% if message %}
+                        <p style="float:right; width:350px;">Last action:<span class="label label-info">{{ message }}</span>
+                        {% else %}
+                        <p style="float:right; width:350px;">Last action:<span class="label label-info">No acction</span>
+                    {% endif %}
+                    </h3>
                   </div>
  			
                 <table class="table table-striped">
@@ -40,10 +35,19 @@
                         <!-- Status-->
                         <td>
                             {% if pins[pin].state == true %}
-                                Current state: <span class="label label-success">On</span>
+                            	{% if pins[pin].type != "input" %}
+                                	Current state: <span class="label label-success">On</span>
+                                {% else %}
+                                	Current state: <span class="label label-danger">Off</span>
+                                {% endif %}
                             {% else %}
-                                Current state: <span class="label label-danger">Off</span>
+                                {% if pins[pin].type != "input" %}
+                                	Current state: <span class="label label-danger">Off</span>
+                                {% else %}
+                                	Current state: <span class="label label-success">On</span>
+                                {% endif %}
                             {% endif %}
+
                         </td>
                         <!-- Button for action-->
                         <td>

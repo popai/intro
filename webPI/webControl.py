@@ -78,57 +78,9 @@ def signout():
     return redirect(url_for('signin'))
 
 
-def send_email(user, pwd, recipient, subject, body):
-    import smtplib
 
-    gmail_user = user
-    gmail_pwd = pwd
-    FROM = user
-    TO = recipient if type(recipient) is list else [recipient]
-    SUBJECT = subject
-    TEXT = body
-
-    # Prepare actual message
-    message = """\From: %s\nTo: %s\nSubject: %s\n\n%s
-    """ % (FROM, ", ".join(TO), SUBJECT, TEXT)
-    try:
-        # SMTP_SSL Example
-        server_ssl = smtplib.SMTP_SSL("smtp.gmail.com", 465)
-        server_ssl.ehlo() # optional, called by login()
-        server_ssl.login(gmail_user, gmail_pwd)  
-        # ssl server doesn't support or need tls, so don't call server_ssl.starttls() 
-        server_ssl.sendmail(FROM, TO, message)
-        #server_ssl.quit()
-        server_ssl.close()
-        print('successfully sent the mail')
-    except:
-        print("failed to send mail")
-
-def inPins():
-    #import smtplib
-        
-    while 1:
-        for pin in pinsAction.pins:
-            #if pinsAction.pins[pin]['type'] == 'output':
-            if pinsAction.pins[pin]['state'] == 1 and pinsAction.pins[pin]['type'] == 'input':
-                if pinsAction.pins[pin]['msg']:
-                    pinsAction.pins[pin]['msg'] = False
-                    deviceName = pinsAction.pins[pin]['name']
-                    message = deviceName + " ON"
-                    print(message)
-                    send_email('rpi.webc@gmail.com', '2016Marti03', 'cretu_dan2003@yahoo.com', 'pi alert', message)
-
-            else:
-                if pinsAction.pins[pin]['msg'] == False:
-                    deviceName = pinsAction.pins[pin]['name']
-                    message = deviceName + " OFF"
-                    print(message)
-                    send_email('rpi.webc@gmail.com', '2016Marti03', 'cretu_dan2003@yahoo.com', 'pi alert', message)
-                pinsAction.pins[pin]['msg'] = True
-
-        time.sleep(0.2)
            
-t1 = threading.Thread(target=inPins)
+t1 = threading.Thread(target=pinsAction.inPins)
 t1.start()
 
 t2 = threading.Thread(target=pinsAction.offPin)

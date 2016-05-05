@@ -41,7 +41,7 @@ def build_sample_db():
     #test_user = User(login="test", password=generate_password_hash("test"))
     #db.session.add(test_user)
 
-    user = User('admin','admin','admin@gmail.com','admin')
+    user = User('admin','admin','admin@gmail.com','admin@12341')
     db.session.add(user)
     db.session.commit()
     return
