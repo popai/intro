@@ -27,32 +27,24 @@
  			
                 <table class="table table-striped">
                 {% for pin in pins %}
-                    {% if pins[pin].type != "test" %}
+		    {% if pins[pin].type != "input" %}
                     <tr>
                         <td>
                             <h4>{{ pins[pin].name }}</h4>
                         </td>
                         <!-- Status-->
                         <td>
-                            {% if pins[pin].state == true %}
-                            	{% if pins[pin].type != "input" %}
+                            {% if pins[pin].state == false %}
                                 	Current state: <span class="label label-success">On</span>
-                                {% else %}
-                                	Current state: <span class="label label-danger">Off</span>
-                                {% endif %}
                             {% else %}
-                                {% if pins[pin].type != "input" %}
                                 	Current state: <span class="label label-danger">Off</span>
-                                {% else %}
-                                	Current state: <span class="label label-success">On</span>
-                                {% endif %}
                             {% endif %}
 
                         </td>
                         <!-- Button for action-->
                         <td>
                         {% if pins[pin].type != "input" %}
-                           {% if pins[pin].state == true %}
+                           {% if pins[pin].state == false %}
                                 <a href="/profile/{{pin}}/on" class="btn btn-success disabled" role="button" >On</a>
                                 <a href="/profile/{{pin}}/off" class="btn btn-danger" role="button">Off</a>
                                 <a href="/profile/{{pin}}/reset" class="btn btn-primary" role="button">Reset</a>
@@ -62,6 +54,41 @@
                                 <a href="/profile/{{pin}}/reset" class="btn btn-primary  <!--disable-->" role="button">Reset</a>
                            {% endif %}
                         {% endif %}        
+                        </td>
+                    </tr>
+		    {% endif %}
+                {% endfor %}
+                </table>
+		STARE INTRARI
+                <table class="table table-striped">
+                {% for pin in pins %}
+                    {% if pins[pin].type == "input" %}
+                    <tr>
+                        <td>
+                            <h4>{{ pins[pin].name }}</h4>
+                        </td>
+                        <!-- Status-->
+                        <td>
+                            {% if pins[pin].state == false %}
+                                        Current state: <span class="label label-success">On</span>
+                            {% else %}
+                                        Current state: <span class="label label-danger">Off</span>
+                            {% endif %}
+
+                        </td>
+                        <!-- Button for action-->
+                        <td>
+                        {% if pins[pin].type != "input" %}
+                           {% if pins[pin].state == false %}
+                                <a href="/profile/{{pin}}/on" class="btn btn-success disabled" role="button" >On</a>
+                                <a href="/profile/{{pin}}/off" class="btn btn-danger" role="button">Off</a>
+                                <a href="/profile/{{pin}}/reset" class="btn btn-primary" role="button">Reset</a>
+                           {% else %}
+                                <a href="/profile/{{pin}}/on" class="btn btn-success" role="button">On</a>
+                                <a href="/profile/{{pin}}/off" class="btn btn-danger disabled" role="button">Off</a>
+                                <a href="/profile/{{pin}}/reset" class="btn btn-primary  <!--disable-->" role="button">Reset</a>
+                           {% endif %}
+                        {% endif %}
                         </td>
                     </tr>
                     {% endif %}

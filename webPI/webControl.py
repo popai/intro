@@ -86,6 +86,9 @@ t1.start()
 t2 = threading.Thread(target=pinsAction.offPin)
 t2.start()                    
 
+t3 = threading.Thread(target=pinsAction.progAsp)
+t3.start()
+
 if __name__ == '__main__':
 
     # Build a sample db on the fly, if one does not exist yet.
@@ -93,7 +96,7 @@ if __name__ == '__main__':
     database_path = os.path.join(app_dir, app.config['DATABASE_FILE'])
     if not os.path.exists(database_path):
         build_sample_db()
-
+    
     app.run(host='0.0.0.0', port=5000, debug=False)
 
     #app.run(debug=False)
