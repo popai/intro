@@ -296,7 +296,7 @@ def inPins():
                         pins[pin]['msg'] = False
                         print(message)
                         #send_email('popai307@gmail.com', 'maistrul', 'popai@b.astral.ro', 'intrari', message)
-            send_email('rpi.webc@gmail.com', '2016Marti03', 'cretu_dan2003@yahoo.com', 'pi alert', message)
+            send_email('rpi.webc@gmail.com', 'blablabal', 'cretu_dan2003@yahoo.com', 'pi alert', message)
                         
             else:
                     if pins[pin]['state'] == 1:
@@ -304,6 +304,6 @@ def inPins():
                         pins[pin]['msg'] = True
                         print(message)
                         #send_email('popai307@gmail.com', 'maistrul', 'popai@b.astral.ro', 'intrari', message)
-            send_email('rpi.webc@gmail.com', '2016Marti03', 'cretu_dan2003@yahoo.com', 'pi alert', message)
+            send_email('rpi.webc@gmail.com', 'blablabal', 'cretu_dan2003@yahoo.com', 'pi alert', message)
                          
         time.sleep(0.2)
